@@ -88,7 +88,26 @@ while($line = fgetcsv($fh, 2048)) {
     if($line[8] === '公立') {
         $dataFound = false;
         foreach($data[$line[1]] AS $k => $v) {
-            if(false !== strpos($line[2], $k)) {
+            if(false !== strpos($line[2], '臺南市立') && false === strpos($line[2], '國民中學')) {
+                if($line[2] === $k) {
+                    $row = array_combine($header, $line);
+                    if(!isset($result[$row['幼兒園名稱']])) {
+                        $result[$row['幼兒園名稱']] = $row;
+                        $result[$row['幼兒園名稱']]['招生'] = array();
+                    }
+                    foreach($v AS $type => $typeData) {
+                        $result[$row['幼兒園名稱']]['招生'][$type] = array(
+                            '類型' => $type,
+                            '可招生名額' => $typeData['可招生名額'],
+                            '登記名額' => $typeData['登記名額'],
+                            '錄取名額' => $typeData['錄取名額'],
+                            '招生簡章網址' => $typeData['招生簡章網址'],
+                        );
+                    }
+                    unset($data[$line[1]][$k]);
+                    $dataFound = true;
+                }
+            } elseif(false !== strpos($line[2], $k)) {
                 $row = array_combine($header, $line);
                 if(!isset($result[$row['幼兒園名稱']])) {
                     $result[$row['幼兒園名稱']] = $row;
@@ -130,7 +149,7 @@ $missing = array(
         '幼兒園住址' => '臺南市新營區姑爺里52號',
         '核定總招收數' => 15,
         '核准設立日期' => '',
-        '設立許可文號' => '南市教特(一)字第1090115756號',
+        '設立許可文號' => '',
         '類型' => '公立',
         '招生' => array(),
     ),
@@ -142,11 +161,12 @@ $missing = array(
         '幼兒園住址' => '臺南市關廟區布袋里3鄰長文街37號',
         '核定總招收數' => 16,
         '核准設立日期' => '',
-        '設立許可文號' => '南市教特(一)字第1090115756號',
+        '設立許可文號' => '',
         '類型' => '公立',
         '招生' => array(),
     ),
 );
+
 foreach($data AS $area => $v1) {
     foreach($v1 AS $school => $v2) {
         foreach($v2 AS $type => $typeData) {
