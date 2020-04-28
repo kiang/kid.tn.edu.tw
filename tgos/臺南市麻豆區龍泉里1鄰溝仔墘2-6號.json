@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<string xmlns="http://tempuri.org/">{
+  "Info": [
+    {
+      "IsSuccess": "True",
+      "InAddress": "臺南市麻豆區龍泉里1鄰溝仔墘2-6號",
+      "InSRS": "EPSG:4326",
+      "InFuzzyType": "[單雙號機制]+[最近門牌號機制]",
+      "InFuzzyBuffer": "0",
+      "InIsOnlyFullMatch": "False",
+      "InIsLockCounty": "True",
+      "InIsLockTown": "False",
+      "InIsLockVillage": "False",
+      "InIsLockRoadSection": "False",
+      "InIsLockLane": "False",
+      "InIsLockAlley": "False",
+      "InIsLockArea": "False",
+      "InIsSameNumber_SubNumber": "True",
+      "InCanIgnoreVillage": "True",
+      "InCanIgnoreNeighborhood": "True",
+      "InReturnMaxCount": "0",
+      "OutTotal": "3",
+      "OutMatchType": "模糊比對",
+      "OutMatchCode": "[臺南市]\tT:1,V:0,R:-1,S:-1,L:-1,A:-1,SA:-1,T:-1,AR:0,NO:1,E:-1,N:1",
+      "OutTraceInfo": "[臺南市]\t { 模糊比對 } (麻豆區)\t找到符合的[鄉鎮市區]，(龍泉里)\t找不到符合的[村里]，進行轉換搜尋[村變成里，里變成村]，進行轉換搜尋[地區名+村]，進行轉換搜尋[地區名+里]，轉換搜尋找不到進行[忽略村里]，(溝仔墘)\t找不到符合的[地區]，轉換搜尋找不到符合的[地區]，(2-6號)\t找到符合的[門牌號碼]，進行[雙號過濾]，進行[找最小門牌的號之、之號]，(1鄰)\t找到符合的[鄰]，模糊比對找到 3 筆符合的門牌地址。"
+    }
+  ],
+  "AddressList": [
+    {
+      "FULL_ADDR": "臺南市麻豆區東角里1鄰民生路2號之6",
+      "COUNTY": "臺南市",
+      "TOWN": "麻豆區",
+      "VILLAGE": "東角里",
+      "NEIGHBORHOOD": "1鄰",
+      "ROAD": "民生路",
+      "SECTION": "",
+      "LANE": "",
+      "ALLEY": "",
+      "SUB_ALLEY": "",
+      "TONG": "",
+      "NUMBER": "2號之6",
+      "X": 120.253003,
+      "Y": 23.184909
+    },
+    {
+      "FULL_ADDR": "臺南市麻豆區油車里1鄰自強街2號之6",
+      "COUNTY": "臺南市",
+      "TOWN": "麻豆區",
+      "VILLAGE": "油車里",
+      "NEIGHBORHOOD": "1鄰",
+      "ROAD": "自強街",
+      "SECTION": "",
+      "LANE": "",
+      "ALLEY": "",
+      "SUB_ALLEY": "",
+      "TONG": "",
+      "NUMBER": "2號之6",
+      "X": 120.244435,
+      "Y": 23.186163
+    },
+    {
+      "FULL_ADDR": "臺南市麻豆區麻口里1鄰麻豆口2號之6",
+      "COUNTY": "臺南市",
+      "TOWN": "麻豆區",
+      "VILLAGE": "麻口里",
+      "NEIGHBORHOOD": "1鄰",
+      "ROAD": "",
+      "SECTION": "",
+      "LANE": "",
+      "ALLEY": "",
+      "SUB_ALLEY": "",
+      "TONG": "",
+      "NUMBER": "2號之6",
+      "X": 120.220973,
+      "Y": 23.177140
+    }
+  ]
+}</string>

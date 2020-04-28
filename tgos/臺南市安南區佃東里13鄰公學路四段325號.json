@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<string xmlns="http://tempuri.org/">{
+  "Info": [
+    {
+      "IsSuccess": "True",
+      "InAddress": "臺南市安南區佃東里13鄰公學路四段325號",
+      "InSRS": "EPSG:4326",
+      "InFuzzyType": "[單雙號機制]+[最近門牌號機制]",
+      "InFuzzyBuffer": "0",
+      "InIsOnlyFullMatch": "False",
+      "InIsLockCounty": "True",
+      "InIsLockTown": "False",
+      "InIsLockVillage": "False",
+      "InIsLockRoadSection": "False",
+      "InIsLockLane": "False",
+      "InIsLockAlley": "False",
+      "InIsLockArea": "False",
+      "InIsSameNumber_SubNumber": "True",
+      "InCanIgnoreVillage": "True",
+      "InCanIgnoreNeighborhood": "True",
+      "InReturnMaxCount": "0",
+      "OutTotal": "3",
+      "OutMatchType": "模糊比對",
+      "OutMatchCode": "[臺南市]\tT:1,V:1,R:1,S:1,L:-1,A:-1,SA:-1,T:-1,AR:-1,NO:0(-136),E:-1,N:0",
+      "OutTraceInfo": "[臺南市]\t { 模糊比對 } (安南區)\t找到符合的[鄉鎮市區]，(佃東里)\t找到符合的[村里]，(公學路)\t找到符合的[路街名]，(4)\t找到符合的[路段]，(325號)\t進行[單號過濾]，進行[找小於且最接近的門牌號碼]，找到小於輸入的門牌號碼 -136 號，進行[找最小門牌的號之、之號]，(13鄰)\t找不到進行[忽略鄰]，模糊比對找到 3 筆符合的門牌地址。"
+    }
+  ],
+  "AddressList": [
+    {
+      "FULL_ADDR": "臺南市安南區佃東里9鄰公學路四段189之1號",
+      "COUNTY": "臺南市",
+      "TOWN": "安南區",
+      "VILLAGE": "佃東里",
+      "NEIGHBORHOOD": "9鄰",
+      "ROAD": "公學路",
+      "SECTION": "4",
+      "LANE": "",
+      "ALLEY": "",
+      "SUB_ALLEY": "",
+      "TONG": "",
+      "NUMBER": "189之1號",
+      "X": 120.176291,
+      "Y": 23.066898
+    },
+    {
+      "FULL_ADDR": "臺南市安南區佃東里9鄰公學路四段189之2號",
+      "COUNTY": "臺南市",
+      "TOWN": "安南區",
+      "VILLAGE": "佃東里",
+      "NEIGHBORHOOD": "9鄰",
+      "ROAD": "公學路",
+      "SECTION": "4",
+      "LANE": "",
+      "ALLEY": "",
+      "SUB_ALLEY": "",
+      "TONG": "",
+      "NUMBER": "189之2號",
+      "X": 120.176306,
+      "Y": 23.066991
+    },
+    {
+      "FULL_ADDR": "臺南市安南區佃東里9鄰公學路四段189之3號",
+      "COUNTY": "臺南市",
+      "TOWN": "安南區",
+      "VILLAGE": "佃東里",
+      "NEIGHBORHOOD": "9鄰",
+      "ROAD": "公學路",
+      "SECTION": "4",
+      "LANE": "",
+      "ALLEY": "",
+      "SUB_ALLEY": "",
+      "TONG": "",
+      "NUMBER": "189之3號",
+      "X": 120.175985,
+      "Y": 23.066669
+    }
+  ]
+}</string>
