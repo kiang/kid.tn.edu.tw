@@ -5,9 +5,9 @@ $now = date('Y-m-d H:i:s');
 
 exec("cd {$rootPath} && /usr/bin/git pull");
 
-exec("php -q {$rootPath}/scripts/01_fetch_data.php");
-exec("php -q {$rootPath}/scripts/02_calc.php");
-exec("php -q {$rootPath}/scripts/03_geocoding.php");
+exec("php -q {$rootPath}/01_fetch_data.php");
+exec("php -q {$rootPath}/02_calc.php");
+exec("php -q {$rootPath}/03_geocoding.php");
 
 exec("cd {$rootPath} && /usr/bin/git add -A");
 
