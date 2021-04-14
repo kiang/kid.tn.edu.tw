@@ -1,5 +1,5 @@
 <?php
-$fh = fopen('/home/kiang/public_html/tw_population/村里戶數人口數單一年齡人口數/2020/03/data.csv', 'r');
+$fh = fopen('/home/kiang/public_html/tw_population/村里戶數人口數單一年齡人口數/2021/02/data.csv', 'r');
 $head = fgetcsv($fh, 20480);
 fgetcsv($fh, 20480);
 $result = array();
