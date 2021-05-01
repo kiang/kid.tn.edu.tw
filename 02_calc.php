@@ -1,23 +1,7 @@
 <?php
-$tasks = [
-  [
-    'population' => '/population/2018/03/data.csv',
-    'data' => '/2018/data.csv',
-    'target' => '/2018/calc.csv',
-  ],
-  [
-    'population' => '/population/2020/03/data.csv',
-    'data' => '/2020/data.csv',
-    'target' => '/2020/calc.csv',
-  ],
-  [
-    'population' => '/population/2021/03/data.csv',
-    'data' => '/data.csv',
-    'target' => '/calc.csv',
-  ],
-];
-foreach ($tasks as $task) {
-  $fh = fopen('/home/kiang/public_html/tw_population' . $task['population'], 'r');
+$years = ['2018', '2020', '2021'];
+foreach ($years as $year) {
+  $fh = fopen('/home/kiang/public_html/tw_population/population/' . $year . '/03/data.csv', 'r');
   $head = fgetcsv($fh, 20480);
   fgetcsv($fh, 20480);
   $result = [];
@@ -41,7 +25,7 @@ foreach ($tasks as $task) {
     }
   }
 
-  $fh = fopen(__DIR__ . $task['data'], 'r');
+  $fh = fopen(__DIR__ . '/data/' . $year . '/data.csv', 'r');
   $head = fgetcsv($fh, 2048);
   while ($line = fgetcsv($fh, 2048)) {
     $data = array_combine($head, $line);
@@ -51,7 +35,7 @@ foreach ($tasks as $task) {
     $result[$data['行政區']]['差額'] += ($data['可招生名額'] - $data['登記名額']);
   }
 
-  $fh = fopen(__DIR__ . $task['target'], 'w');
+  $fh = fopen(__DIR__ . '/data/' . $year . '/calc.csv', 'w');
   $headOut = false;
   foreach ($result as $area => $data) {
     $data['登記佔人口比例'] = round($data['登記名額'] / $data['人口[3-4]'], 2);

@@ -14,7 +14,7 @@ $config = require __DIR__ . '/config.php';
   [7] => -
   )
  */
-$fh = fopen(__DIR__ . '/data.csv', 'r');
+$fh = fopen(__DIR__ . '/data/2021/data.csv', 'r');
 $header = fgetcsv($fh, 2048);
 $data = array();
 while ($line = fgetcsv($fh, 2048)) {
