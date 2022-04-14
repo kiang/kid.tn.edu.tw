@@ -1,5 +1,5 @@
 <?php
-$years = ['2018', '2020', '2021'];
+$years = ['2022'];
 foreach ($years as $year) {
   $fh = fopen('/home/kiang/public_html/tw_population/population/' . $year . '/03/data.csv', 'r');
   $head = fgetcsv($fh, 20480);
