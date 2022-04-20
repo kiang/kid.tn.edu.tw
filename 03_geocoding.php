@@ -67,6 +67,19 @@ while ($line = fgetcsv($fh, 2048)) {
     $data[$line[0]][$line[2]][$line[1]] = array_combine($header, $line);
 }
 
+$fh = fopen(__DIR__ . '/data/2022/nonprofit.csv', 'r');
+$header = fgetcsv($fh, 2048);
+while ($line = fgetcsv($fh, 2048)) {
+    $line[0] = str_replace(' ', '', $line[0]);
+    if (!isset($data[$line[0]])) {
+        $data[$line[0]] = array();
+    }
+    if (!isset($data[$line[0]][$line[2]])) {
+        $data[$line[0]][$line[2]] = array();
+    }
+    $data[$line[0]][$line[2]][$line[1]] = array_combine($header, $line);
+}
+
 /*
   Array
   (
@@ -83,7 +96,7 @@ $fh = fopen(__DIR__ . '/15_publickindergarten.csv', 'r');
 $header = fgetcsv($fh, 2048);
 $result = array();
 while ($line = fgetcsv($fh, 2048)) {
-    foreach ($data[$line[0]] AS $k => $v) {
+    foreach ($data[$line[0]] as $k => $v) {
         if (false !== strpos($line[1], '臺南市立') && false === strpos($line[1], '國民中學')) {
             if ($line[1] === $k) {
                 $row = array_combine($header, $line);
@@ -91,7 +104,7 @@ while ($line = fgetcsv($fh, 2048)) {
                     $result[$row['幼兒園名稱']] = $row;
                     $result[$row['幼兒園名稱']]['招生'] = array();
                 }
-                foreach ($v AS $type => $typeData) {
+                foreach ($v as $type => $typeData) {
                     $result[$row['幼兒園名稱']]['招生'][$type] = array(
                         '類型' => $type,
                         '可招生名額' => $typeData['可招生名額'],
@@ -108,7 +121,7 @@ while ($line = fgetcsv($fh, 2048)) {
                 $result[$row['幼兒園名稱']] = $row;
                 $result[$row['幼兒園名稱']]['招生'] = array();
             }
-            foreach ($v AS $type => $typeData) {
+            foreach ($v as $type => $typeData) {
                 $result[$row['幼兒園名稱']]['招生'][$type] = array(
                     '類型' => $type,
                     '可招生名額' => $typeData['可招生名額'],
@@ -121,8 +134,9 @@ while ($line = fgetcsv($fh, 2048)) {
         }
     }
 }
+
 $missing = array(
-    '錦湖國民小學附設幼兒園' => array(// http://www.jhes.tn.edu.tw/modules/tadnews/index.php?nsn=290
+    '錦湖國民小學附設幼兒園' => array( // http://www.jhes.tn.edu.tw/modules/tadnews/index.php?nsn=290
         '序號' => '',
         '區別' => '北門區',
         '幼兒園名稱' => '臺南市錦湖國小附設幼兒園',
@@ -170,7 +184,7 @@ $missing = array(
         '類型' => '公立',
         '招生' => array(),
     ),
-    '坔頭港國民小學附設幼兒園' => array(// https://schoolweb.tn.edu.tw/~hnes_www/modules/tadnews/index.php?nsn=2856
+    '坔頭港國民小學附設幼兒園' => array( // https://schoolweb.tn.edu.tw/~hnes_www/modules/tadnews/index.php?nsn=2856
         '序號' => '',
         '區別' => '鹽水區',
         '幼兒園名稱' => '臺南市鹽水區坔頭港國小附設幼兒園',
@@ -182,7 +196,7 @@ $missing = array(
         '類型' => '公立',
         '招生' => array(),
     ),
-    '南興國民小學附設幼兒園' => array(// https://sites.google.com/nses.tn.edu.tw/nseschild
+    '南興國民小學附設幼兒園' => array( // https://sites.google.com/nses.tn.edu.tw/nseschild
         '序號' => '',
         '區別' => '安南區',
         '幼兒園名稱' => '臺南市安南區南興國民小學附設幼兒園',
@@ -194,7 +208,7 @@ $missing = array(
         '類型' => '公立',
         '招生' => array(),
     ),
-    '新生國民小學附設幼兒園' => array(// https://reurl.cc/oLx0xq
+    '新生國民小學附設幼兒園' => array( // https://reurl.cc/oLx0xq
         '序號' => '',
         '區別' => '新營區',
         '幼兒園名稱' => '臺南市新營區新生國民小學附設幼兒園',
@@ -206,7 +220,7 @@ $missing = array(
         '類型' => '公立',
         '招生' => array(),
     ),
-    '文和國民小學附設幼兒園' => array(// http://www.whps.tn.edu.tw/modules/tadnews/index.php?nsn=4766
+    '文和國民小學附設幼兒園' => array( // http://www.whps.tn.edu.tw/modules/tadnews/index.php?nsn=4766
         '序號' => '',
         '區別' => '關廟區',
         '幼兒園名稱' => '臺南市關廟區文和實驗國民小學附設幼兒園',
@@ -302,11 +316,119 @@ $missing = array(
         '類型' => '公立',
         '招生' => array(),
     ),
+    '七農非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '七股區',
+        '幼兒園名稱' => '七農非營利幼兒園',
+        '幼兒園電話' => '06-7871711 #312',
+        '幼兒園住址' => '台南市七股區大埕里272號',
+        '核定總招收數' => 31,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
+    '永仁非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '永康區',
+        '幼兒園名稱' => '永仁非營利幼兒園',
+        '幼兒園電話' => '06‐312-2552',
+        '幼兒園住址' => '台南市永康區興國街181號',
+        '核定總招收數' => 30,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
+    '市府員工子女非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '',
+        '幼兒園名稱' => '臺南市政府員工子女非營利幼兒園',
+        '幼兒園電話' => '06-2999391',
+        '幼兒園住址' => '臺南市安平區府前路二段311號',
+        '核定總招收數' => 44,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
+    '崑山土城非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '安南區',
+        '幼兒園名稱' => '臺南市崑山土城非營利幼兒園',
+        '幼兒園電話' => '06-2571278',
+        '幼兒園住址' => '台南市安南區城安路21號',
+        '核定總招收數' => 16,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
+    '成大員工子女非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '東區',
+        '幼兒園名稱' => '國立成功大學員工子女非營利幼兒園',
+        '幼兒園電話' => '06-2757575*36030.36031',
+        '幼兒園住址' => '台南市東區林森路二段251號',
+        '核定總招收數' => 2,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
+    '水交社非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '南區',
+        '幼兒園名稱' => '臺南市水交社非營利幼兒園',
+        '幼兒園電話' => '06-2642161',
+        '幼兒園住址' => '台南市南區西門路一段306號',
+        '核定總招收數' => 62,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
+    '擇仁非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '南區',
+        '幼兒園名稱' => '臺南市擇仁非營利幼兒園',
+        '幼兒園電話' => '06 7030435',
+        '幼兒園住址' => '台南市南區南門路232號',
+        '核定總招收數' => 20,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
+    '西拉雅非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '麻豆區',
+        '幼兒園名稱' => '臺南市西拉雅非營利幼兒園',
+        '幼兒園電話' => '05-711939',
+        '幼兒園住址' => '臺南市麻豆區南勢36-211號',
+        '核定總招收數' => 18,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
+    '南新非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '新營區',
+        '幼兒園名稱' => '南新非營利幼兒園',
+        '幼兒園電話' => '06 6560938',
+        '幼兒園住址' => '台南市新營區三興街39號',
+        '核定總招收數' => 32,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
 );
 
-foreach ($data AS $area => $v1) {
-    foreach ($v1 AS $school => $v2) {
-        foreach ($v2 AS $type => $typeData) {
+foreach ($data as $area => $v1) {
+    foreach ($v1 as $school => $v2) {
+        foreach ($v2 as $type => $typeData) {
             $row = $missing[$typeData['幼兒園']];
             $result[$row['幼兒園名稱']] = $row;
             $result[$row['幼兒園名稱']]['招生'][$type] = array(
@@ -320,7 +442,7 @@ foreach ($data AS $area => $v1) {
     }
 }
 
-foreach ($result AS $k1 => $v1) {
+foreach ($result as $k1 => $v1) {
     $pos = strpos($v1['幼兒園住址'], ']');
     if (false !== $pos) {
         $v1['幼兒園住址'] = substr($v1['幼兒園住址'], $pos + 1);
@@ -328,25 +450,25 @@ foreach ($result AS $k1 => $v1) {
     $tgosFile = __DIR__ . '/tgos/' . $v1['幼兒園住址'] . '.json';
     if (!file_exists($tgosFile)) {
         $apiUrl = $config['tgos']['url'] . '?' . http_build_query(array(
-                    'oAPPId' => $config['tgos']['APPID'], //應用程式識別碼(APPId)
-                    'oAPIKey' => $config['tgos']['APIKey'], // 應用程式介接驗證碼(APIKey)
-                    'oAddress' => $v1['幼兒園住址'], //所要查詢的門牌位置
-                    'oSRS' => 'EPSG:4326', //回傳的坐標系統
-                    'oFuzzyType' => '2', //模糊比對的代碼
-                    'oResultDataType' => 'JSON', //回傳的資料格式
-                    'oFuzzyBuffer' => '0', //模糊比對回傳門牌號的許可誤差範圍
-                    'oIsOnlyFullMatch' => 'false', //是否只進行完全比對
-                    'oIsLockCounty' => 'true', //是否鎖定縣市
-                    'oIsLockTown' => 'false', //是否鎖定鄉鎮市區
-                    'oIsLockVillage' => 'false', //是否鎖定村里
-                    'oIsLockRoadSection' => 'false', //是否鎖定路段
-                    'oIsLockLane' => 'false', //是否鎖定巷
-                    'oIsLockAlley' => 'false', //是否鎖定弄
-                    'oIsLockArea' => 'false', //是否鎖定地區
-                    'oIsSameNumber_SubNumber' => 'true', //號之、之號是否視為相同
-                    'oCanIgnoreVillage' => 'true', //找不時是否可忽略村里
-                    'oCanIgnoreNeighborhood' => 'true', //找不時是否可忽略鄰
-                    'oReturnMaxCount' => '0', //如為多筆時，限制回傳最大筆數
+            'oAPPId' => $config['tgos']['APPID'], //應用程式識別碼(APPId)
+            'oAPIKey' => $config['tgos']['APIKey'], // 應用程式介接驗證碼(APIKey)
+            'oAddress' => $v1['幼兒園住址'], //所要查詢的門牌位置
+            'oSRS' => 'EPSG:4326', //回傳的坐標系統
+            'oFuzzyType' => '2', //模糊比對的代碼
+            'oResultDataType' => 'JSON', //回傳的資料格式
+            'oFuzzyBuffer' => '0', //模糊比對回傳門牌號的許可誤差範圍
+            'oIsOnlyFullMatch' => 'false', //是否只進行完全比對
+            'oIsLockCounty' => 'true', //是否鎖定縣市
+            'oIsLockTown' => 'false', //是否鎖定鄉鎮市區
+            'oIsLockVillage' => 'false', //是否鎖定村里
+            'oIsLockRoadSection' => 'false', //是否鎖定路段
+            'oIsLockLane' => 'false', //是否鎖定巷
+            'oIsLockAlley' => 'false', //是否鎖定弄
+            'oIsLockArea' => 'false', //是否鎖定地區
+            'oIsSameNumber_SubNumber' => 'true', //號之、之號是否視為相同
+            'oCanIgnoreVillage' => 'true', //找不時是否可忽略村里
+            'oCanIgnoreNeighborhood' => 'true', //找不時是否可忽略鄰
+            'oReturnMaxCount' => '0', //如為多筆時，限制回傳最大筆數
         ));
         $content = file_get_contents($apiUrl);
         file_put_contents($tgosFile, $content);
