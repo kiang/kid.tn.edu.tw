@@ -16,6 +16,7 @@ foreach ($years as $year) {
           '登記名額' => 0,
           '可招生名額' => 0,
           '差額' => 0,
+          '錄取名額' => 0,
         );
       }
       $result[$area]['人口[3-4]'] += $data['people_age_003_m'];
@@ -33,6 +34,7 @@ foreach ($years as $year) {
     $result[$data['行政區']]['登記名額'] += $data['登記名額'];
     $result[$data['行政區']]['可招生名額'] += $data['可招生名額'];
     $result[$data['行政區']]['差額'] += ($data['可招生名額'] - $data['登記名額']);
+    $result[$data['行政區']]['錄取名額'] += $data['錄取名額'];
   }
 
   $fh = fopen(__DIR__ . '/data/' . $year . '/calc.csv', 'w');
