@@ -7,9 +7,12 @@ use Symfony\Component\DomCrawler\Field\InputFormField;
 
 $client = new Client();
 $crawler = $client->request('GET', 'https://kid.tn.edu.tw/NonProfit/Public/Reg1Stat.aspx');
-$form = $crawler->selectButton('查詢')->form();
-$btn = $form->get('ctl00$MainContent$btnQry');
-if ($btn->isDisabled()) {
+$form = $crawler->filter('form')->form();
+$btn = false;
+if ($crawler->filter('#ctl00\\$MainContent\\$btnQry')->count() > 0) {
+    $btn = $form->get('ctl00$MainContent$btnQry');
+}
+if (false === $btn || $btn->isDisabled()) {
     $domdocument = new \DOMDocument;
     $ff = $domdocument->createElement('input');
     $ff->setAttribute('name', 'ctl00$MainContent$btnQry');
@@ -17,7 +20,7 @@ if ($btn->isDisabled()) {
     $formfield = new InputFormField($ff);
     $form->set($formfield);
 }
-$areas = array('七股區', '永康區', '安平區', '安南區', '東區 ', '南區 ', '新營區', '麻豆區',);
+$areas = array('永康區', '安平區', '安南區', '東區 ', '南區 ', '新營區', '麻豆區',);
 $fh = fopen(__DIR__ . '/data/2023/nonprofit.csv', 'w');
 fputcsv($fh, array('行政區', '類型', '幼兒園', '可招生名額', '登記名額', '錄取名額', '招生簡章網址', '-'));
 foreach ($areas AS $area) {
