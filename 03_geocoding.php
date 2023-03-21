@@ -14,7 +14,7 @@ $config = require __DIR__ . '/config.php';
   [7] => -
   )
  */
-$fh = fopen(__DIR__ . '/data/2022/data.csv', 'r');
+$fh = fopen(__DIR__ . '/data/2023/data.csv', 'r');
 $header = fgetcsv($fh, 2048);
 $data = array();
 while ($line = fgetcsv($fh, 2048)) {
@@ -67,7 +67,7 @@ while ($line = fgetcsv($fh, 2048)) {
     $data[$line[0]][$line[2]][$line[1]] = array_combine($header, $line);
 }
 
-$fh = fopen(__DIR__ . '/data/2022/nonprofit.csv', 'r');
+$fh = fopen(__DIR__ . '/data/2023/nonprofit.csv', 'r');
 $header = fgetcsv($fh, 2048);
 while ($line = fgetcsv($fh, 2048)) {
     $line[0] = str_replace(' ', '', $line[0]);
