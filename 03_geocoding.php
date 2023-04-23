@@ -424,6 +424,30 @@ $missing = array(
         '類型' => '非營利',
         '招生' => array(),
     ),
+    '中信員工子女非營利幼兒園' => array(
+        '序號' => '',
+        '區別' => '安南區',
+        '幼兒園名稱' => '中信員工子女非營利幼兒園',
+        '幼兒園電話' => '06-2873317',
+        '幼兒園住址' => '台南市安南區台江大道三段600號',
+        '核定總招收數' => 32,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '非營利',
+        '招生' => array(),
+    ),
+    '蓮潭國中小附設幼兒園' => array(
+        '序號' => '',
+        '區別' => '善化區',
+        '幼兒園名稱' => '蓮潭國中小附設幼兒園',
+        '幼兒園電話' => '(06)5837019',
+        '幼兒園住址' => '台南市善化區陽光大道366號',
+        '核定總招收數' => 15,
+        '核准設立日期' => '',
+        '設立許可文號' => '',
+        '類型' => '公立',
+        '招生' => array(),
+    ),
 );
 
 foreach ($data as $area => $v1) {
@@ -441,6 +465,13 @@ foreach ($data as $area => $v1) {
         }
     }
 }
+
+$context = stream_context_create(array(
+    "ssl" => array(
+        "verify_peer" => false,
+        "verify_peer_name" => false,
+    ),
+));
 
 foreach ($result as $k1 => $v1) {
     $pos = strpos($v1['幼兒園住址'], ']');
@@ -469,14 +500,25 @@ foreach ($result as $k1 => $v1) {
             'oCanIgnoreVillage' => 'true', //找不時是否可忽略村里
             'oCanIgnoreNeighborhood' => 'true', //找不時是否可忽略鄰
             'oReturnMaxCount' => '0', //如為多筆時，限制回傳最大筆數
+            'oIsSupportPast' => 'true',
+            'oIsShowCodeBase' => 'true',
         ));
-        $content = file_get_contents($apiUrl);
-        file_put_contents($tgosFile, $content);
+        $content = file_get_contents($apiUrl, false, $context);
+        if (!empty($content)) {
+            file_put_contents($tgosFile, $content);
+        }
     }
-    $content = file_get_contents($tgosFile);
-    $pos = strpos($content, '{');
-    $posEnd = strrpos($content, '}');
-    $json = json_decode(substr($content, $pos, $posEnd - $pos + 1), true);
+    if (file_exists($tgosFile)) {
+        $content = file_get_contents($tgosFile);
+        $pos = strpos($content, '{');
+        $posEnd = strrpos($content, '}');
+        $json = json_decode(substr($content, $pos, $posEnd - $pos + 1), true);
+    } else {
+        $content = '';
+        $json = [];
+    }
+
+
     $result[$k1]['longitude'] = 0;
     $result[$k1]['latitude'] = 0;
     $result[$k1]['cunli'] = '';
