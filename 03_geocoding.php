@@ -199,13 +199,13 @@ while ($line = fgetcsv($fh, 2048)) {
         }
     }
     $info['類型'] = $data['類型'];
+    $info['簡章下載'] = $data['簡章下載'];
     $info['招生'] = [
         '2歲' => $data['2歲'],
         '3歲' => $data['3歲'],
         '4歲' => $data['4歲'],
         '5歲' => $data['5歲'],
         '3-5歲' => $data['3-5歲'],
-        '簡章下載' => $data['簡章下載'],
     ];
     $result[] = $info;
 }
@@ -263,6 +263,9 @@ EOD;
                 '___KEYWORD___' => urlencode(urlencode($cleanKeyword)),
             ]));
             $json = json_decode(json_encode(simplexml_load_string($nlscResult)), true);
+            if(is_array($json['ITEM'])) {
+                $json['ITEM'] = $json['ITEM'][0];
+            }
             if (!empty($json['ITEM']['LOCATION'])) {
                 $parts = explode(',', $json['ITEM']['LOCATION']);
                 if (count($parts) === 2) {
