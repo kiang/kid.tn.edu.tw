@@ -470,7 +470,7 @@ foreach ($result as $k1 => $v1) {
     if (false !== $pos) {
         $v1['幼兒園住址'] = substr($v1['幼兒園住址'], $pos + 1);
     }
-    $rawFile = __DIR__ . '/tgos/' . $v1['幼兒園住址'] . '.json';
+    $rawFile = __DIR__ . '/raw/' . $v1['幼兒園住址'] . '.json';
     if (!file_exists($rawFile)) {
         $command = <<<EOD
 curl 'https://api.nlsc.gov.tw/MapSearch/ContentSearch?word=___KEYWORD___&mode=AutoComplete&count=1&feedback=XML' \
@@ -487,10 +487,10 @@ curl 'https://api.nlsc.gov.tw/MapSearch/ContentSearch?word=___KEYWORD___&mode=Au
    -H 'sec-ch-ua-mobile: ?0' \
    -H 'sec-ch-ua-platform: "Linux"'
 EOD;
-                $result = shell_exec(strtr($command, [
+                $nlscResult = shell_exec(strtr($command, [
                     '___KEYWORD___' => urlencode($v1['幼兒園住址']),
                 ]));
-                $cleanKeyword = trim(strip_tags($result));
+                $cleanKeyword = trim(strip_tags($nlscResult));
                 if (!empty($cleanKeyword)) {
                     $command = <<<EOD
                     curl 'https://api.nlsc.gov.tw/MapSearch/QuerySearch' \
@@ -509,10 +509,10 @@ EOD;
                       -H 'sec-ch-ua-platform: "Linux"' \
                       --data-raw 'word=___KEYWORD___&feedback=XML&center=120.218280%2C23.007292'
                     EOD;
-                    $result = shell_exec(strtr($command, [
+                    $nlscResult = shell_exec(strtr($command, [
                         '___KEYWORD___' => urlencode(urlencode($cleanKeyword)),
                     ]));
-                    $json = json_decode(json_encode(simplexml_load_string($result)), true);
+                    $json = json_decode(json_encode(simplexml_load_string($nlscResult)), true);
                     if (!empty($json['ITEM']['LOCATION'])) {
                         $parts = explode(',', $json['ITEM']['LOCATION']);
                         if (count($parts) === 2) {
@@ -530,9 +530,7 @@ EOD;
     }
     if (file_exists($rawFile)) {
         $content = file_get_contents($rawFile);
-        $pos = strpos($content, '{');
-        $posEnd = strrpos($content, '}');
-        $json = json_decode(substr($content, $pos, $posEnd - $pos + 1), true);
+        $json = json_decode(file_get_contents($rawFile), true);
     } else {
         $content = '';
         $json = [];
@@ -545,7 +543,6 @@ EOD;
     if (isset($json['AddressList'][0])) {
         $result[$k1]['longitude'] = $json['AddressList'][0]['X'];
         $result[$k1]['latitude'] = $json['AddressList'][0]['Y'];
-        $result[$k1]['cunli'] = $json['AddressList'][0]['VILLAGE'];
     } else {
         switch ($k1) {
             case '臺南市新營區新橋國民小學附設幼兒園':
