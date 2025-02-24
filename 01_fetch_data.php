@@ -5,6 +5,12 @@ require 'vendor/autoload.php';
 use Goutte\Client;
 use Symfony\Component\DomCrawler\Field\InputFormField;
 
+$year = date('Y');
+$yearPath = __DIR__ . '/data/' . $year;
+if (!file_exists($yearPath)) {
+    mkdir($yearPath, 0777, true);
+}
+
 $client = new Client();
 $crawler = $client->request('GET', 'https://kid.tn.edu.tw/KidsAll/Public/AllSch1.aspx');
 $form = $crawler->filter('form')->form();
@@ -22,7 +28,7 @@ $areas = array(
     '將軍區', '麻豆區', '善化區', '新化區', '新市區', '新營區', '楠西區', '學甲區', '龍崎區',
     '歸仁區', '關廟區', '鹽水區'
 );
-$fh = fopen(__DIR__ . '/data/2024/data.csv', 'w');
+$fh = fopen($yearPath . '/data.csv', 'w');
 fputcsv($fh, array('行政區', '類型', '學校', '2歲', '3歲', '4歲', '5歲', '3-5歲', '簡章下載', '電話'));
 foreach ($areas as $area) {
     $client->submit($form, array('ctl00$MainContent$rbArea' => $area));
