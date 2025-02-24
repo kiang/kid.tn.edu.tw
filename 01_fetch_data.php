@@ -67,6 +67,7 @@ function getTableRows($c)
             $cols[$k] = trim(strip_tags($v));
         }
         $cols[8] = '06-' . $cols[8];
+        array_pop($cols);
         $result[] = $cols;
     }
     return $result;

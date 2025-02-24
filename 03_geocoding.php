@@ -25,9 +25,6 @@ $header = fgetcsv($fh, 2048);
 $countHeader = count($header);
 $data = array();
 while ($line = fgetcsv($fh, 2048)) {
-    if (count($line) !== $countHeader) {
-        array_pop($line);
-    }
     $line[0] = str_replace(' ', '', $line[0]);
     if (!isset($data[$line[0]])) {
         $data[$line[0]] = array();
