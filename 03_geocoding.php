@@ -263,7 +263,7 @@ EOD;
                 '___KEYWORD___' => urlencode(urlencode($cleanKeyword)),
             ]));
             $json = json_decode(json_encode(simplexml_load_string($nlscResult)), true);
-            if(is_array($json['ITEM'])) {
+            if(isset($json['ITEM'][0])) {
                 $json['ITEM'] = $json['ITEM'][0];
             }
             if (!empty($json['ITEM']['LOCATION'])) {
