@@ -69,11 +69,26 @@ foreach ($pool as $k => $v) {
     $pool[$k]['幼兒園電話'] = $parts[2];
 }
 
+$lotFile = __DIR__ . '/data/lot/' . $year . '.json';
+$lot = json_decode(file_get_contents($lotFile), true);
+
 $fh = fopen($yearPath . '/data.csv', 'r');
 $header = fgetcsv($fh, 2048);
 while ($line = fgetcsv($fh, 2048)) {
     $line[0] = str_replace(' ', '', $line[0]);
     $data = array_combine($header, $line);
+    if(isset($lot[$data['學校']])) {
+        if(!empty($lot[$data['學校']]['錄取'][3])) {
+            if(!empty($data['3-5歲'])) {
+                $data['3-5歲'] = intval($data['3-5歲']) - $lot[$data['學校']]['錄取'][3];
+            } else {
+                $data['3歲'] = intval($data['3歲']) - $lot[$data['學校']]['錄取'][3];
+            }
+        }
+        if(!empty($lot[$data['學校']]['錄取'][2])) {
+            $data['2歲'] = intval($data['2歲']) - $lot[$data['學校']]['錄取'][2];
+        }
+    }
     if (isset($pool[$data['學校']])) {
         $info = $pool[$data['學校']];
     } else {
