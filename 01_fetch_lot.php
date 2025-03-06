@@ -43,6 +43,19 @@ foreach ($areas as $area) {
     $ff->setAttribute('value', '查詢');
     $formfield = new InputFormField($ff);
     $form->set($formfield);
+
+    $ff = $domdocument->createElement('input');
+    $ff->setAttribute('name', 'ctl00$MainContent$btnQryAdm');
+    $ff->setAttribute('value', '錄取名單');
+    $formfield = new InputFormField($ff);
+    $form->set($formfield);
+
+    $ff = $domdocument->createElement('input');
+    $ff->setAttribute('name', 'ctl00$MainContent$btnQryPre');
+    $ff->setAttribute('value', '備取名單');
+    $formfield = new InputFormField($ff);
+    $form->set($formfield);
+
     $schoolsPage = $client->getResponse()->getContent();
     $pos = strpos($schoolsPage, '<select name="ctl00$MainContent$ddlSch"');
     $posEnd = strpos($schoolsPage, '</select>', $pos);
@@ -56,23 +69,50 @@ foreach ($areas as $area) {
         }
         $client->submit($form, [
             'ctl00$MainContent$ddlSch' => $schoolName,
-            'ctl00$MainContent$rbStage' => '2'
+            'ctl00$MainContent$rbStage' => '2',
+            'ctl00$MainContent$btnQryAdm' => '錄取名單',
+            'ctl00$MainContent$btnQryPre' => '',
         ]);
         $school2 = $client->getResponse()->getContent();
         $pos = strpos($school2, '<span id="MainContent_lbMsg"');
         $posEnd = strpos($school2, '<span id="lbBOEadmin"', $pos);
-        $lot2 = substr($school2, $pos, $posEnd - $pos);
+        $lot2Part1 = substr($school2, $pos, $posEnd - $pos);
+
         $client->submit($form, [
             'ctl00$MainContent$ddlSch' => $schoolName,
-            'ctl00$MainContent$rbStage' => '3'
+            'ctl00$MainContent$rbStage' => '2',
+            'ctl00$MainContent$btnQryAdm' => '',
+            'ctl00$MainContent$btnQryPre' => '備取名單',
+        ]);
+        $school2 = $client->getResponse()->getContent();
+        $pos = strpos($school2, '<span id="MainContent_lbMsg"');
+        $posEnd = strpos($school2, '<span id="lbBOEadmin"', $pos);
+        $lot2Part2 = substr($school2, $pos, $posEnd - $pos);
+
+        $client->submit($form, [
+            'ctl00$MainContent$ddlSch' => $schoolName,
+            'ctl00$MainContent$rbStage' => '3',
+            'ctl00$MainContent$btnQryAdm' => '錄取名單',
+            'ctl00$MainContent$btnQryPre' => '',
         ]);
         $school3 = $client->getResponse()->getContent();
         $pos = strpos($school3, '<span id="MainContent_lbMsg"');
         $posEnd = strpos($school3, '<span id="lbBOEadmin"', $pos);
-        $lot3 = substr($school3, $pos, $posEnd - $pos);
+        $lot3Part1 = substr($school3, $pos, $posEnd - $pos);
+
+        $client->submit($form, [
+            'ctl00$MainContent$ddlSch' => $schoolName,
+            'ctl00$MainContent$rbStage' => '3',
+            'ctl00$MainContent$btnQryAdm' => '',
+            'ctl00$MainContent$btnQryPre' => '備取名單',
+        ]);
+        $school3 = $client->getResponse()->getContent();
+        $pos = strpos($school3, '<span id="MainContent_lbMsg"');
+        $posEnd = strpos($school3, '<span id="lbBOEadmin"', $pos);
+        $lot3Part2 = substr($school3, $pos, $posEnd - $pos);
         
         $rawFile = $yearLotPath . '/' . $area . '_' . $schoolName . '.html';
-        file_put_contents($rawFile, $lot2 . "\n" . $lot3);
+        file_put_contents($rawFile, $lot2Part1 . "\n--\n" . $lot3Part1 . "\n--\n" . $lot2Part2 . "\n--\n" . $lot3Part2);
     }
 }
 
@@ -104,6 +144,19 @@ foreach ($areas as $area) {
     $ff->setAttribute('value', '查詢');
     $formfield = new InputFormField($ff);
     $form->set($formfield);
+
+    $ff = $domdocument->createElement('input');
+    $ff->setAttribute('name', 'ctl00$MainContent$btnQryAdm');
+    $ff->setAttribute('value', '錄取名單');
+    $formfield = new InputFormField($ff);
+    $form->set($formfield);
+
+    $ff = $domdocument->createElement('input');
+    $ff->setAttribute('name', 'ctl00$MainContent$btnQryPre');
+    $ff->setAttribute('value', '備取名單');
+    $formfield = new InputFormField($ff);
+    $form->set($formfield);
+
     $schoolsPage = $client->getResponse()->getContent();
     $pos = strpos($schoolsPage, '<select name="ctl00$MainContent$ddlSch"');
     $posEnd = strpos($schoolsPage, '</select>', $pos);
@@ -117,22 +170,49 @@ foreach ($areas as $area) {
         }
         $client->submit($form, [
             'ctl00$MainContent$ddlSch' => $schoolName,
-            'ctl00$MainContent$rbStage' => '2'
+            'ctl00$MainContent$rbStage' => '2',
+            'ctl00$MainContent$btnQryAdm' => '錄取名單',
+            'ctl00$MainContent$btnQryPre' => '',
         ]);
         $school2 = $client->getResponse()->getContent();
         $pos = strpos($school2, '<span id="MainContent_lbMsg"');
         $posEnd = strpos($school2, '<span id="lbBOEadmin"', $pos);
-        $lot2 = substr($school2, $pos, $posEnd - $pos);
+        $lot2Part1 = substr($school2, $pos, $posEnd - $pos);
+
         $client->submit($form, [
             'ctl00$MainContent$ddlSch' => $schoolName,
-            'ctl00$MainContent$rbStage' => '3'
+            'ctl00$MainContent$rbStage' => '2',
+            'ctl00$MainContent$btnQryAdm' => '',
+            'ctl00$MainContent$btnQryPre' => '備取名單',
+        ]);
+        $school2 = $client->getResponse()->getContent();
+        $pos = strpos($school2, '<span id="MainContent_lbMsg"');
+        $posEnd = strpos($school2, '<span id="lbBOEadmin"', $pos);
+        $lot2Part2 = substr($school2, $pos, $posEnd - $pos);
+
+        $client->submit($form, [
+            'ctl00$MainContent$ddlSch' => $schoolName,
+            'ctl00$MainContent$rbStage' => '3',
+            'ctl00$MainContent$btnQryAdm' => '錄取名單',
+            'ctl00$MainContent$btnQryPre' => '',
         ]);
         $school3 = $client->getResponse()->getContent();
         $pos = strpos($school3, '<span id="MainContent_lbMsg"');
         $posEnd = strpos($school3, '<span id="lbBOEadmin"', $pos);
-        $lot3 = substr($school3, $pos, $posEnd - $pos);
+        $lot3Part1 = substr($school3, $pos, $posEnd - $pos);
+
+        $client->submit($form, [
+            'ctl00$MainContent$ddlSch' => $schoolName,
+            'ctl00$MainContent$rbStage' => '3',
+            'ctl00$MainContent$btnQryAdm' => '',
+            'ctl00$MainContent$btnQryPre' => '備取名單',
+        ]);
+        $school3 = $client->getResponse()->getContent();
+        $pos = strpos($school3, '<span id="MainContent_lbMsg"');
+        $posEnd = strpos($school3, '<span id="lbBOEadmin"', $pos);
+        $lot3Part2 = substr($school3, $pos, $posEnd - $pos);
         
         $rawFile = $yearLotPath . '/' . $area . '_' . $schoolName . '.html';
-        file_put_contents($rawFile, $lot2 . "\n" . $lot3);
+        file_put_contents($rawFile, $lot2Part1 . "\n--\n" . $lot3Part1 . "\n--\n" . $lot2Part2 . "\n--\n" . $lot3Part2);
     }
 }
