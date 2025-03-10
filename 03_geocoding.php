@@ -69,10 +69,18 @@ foreach ($pool as $k => $v) {
     $pool[$k]['幼兒園電話'] = $parts[2];
 }
 
-$lotFile = __DIR__ . '/data/lot/' . $year . '.json';
-$lot = json_decode(file_get_contents($lotFile), true);
+$data2File = $yearPath . '/data2.csv';
+$lot = [];
+if(!file_exists($data2File)) {
+    $lotFile = __DIR__ . '/data/lot/' . $year . '.json';
+    $lot = json_decode(file_get_contents($lotFile), true);
 
-$fh = fopen($yearPath . '/data.csv', 'r');
+    $fh = fopen($yearPath . '/data.csv', 'r');
+} else {
+    $fh = fopen($data2File, 'r');
+}
+
+
 $header = fgetcsv($fh, 2048);
 while ($line = fgetcsv($fh, 2048)) {
     $line[0] = str_replace(' ', '', $line[0]);
