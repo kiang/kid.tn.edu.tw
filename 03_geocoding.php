@@ -71,12 +71,19 @@ foreach ($pool as $k => $v) {
 
 $data2File = $yearPath . '/data2.csv';
 $lot = [];
-if(!file_exists($data2File)) {
+if (!file_exists($data2File)) {
     $lotFile = __DIR__ . '/data/lot/' . $year . '.json';
-    $lot = json_decode(file_get_contents($lotFile), true);
+    if (file_exists($lotFile)) {
+        $lot = json_decode(file_get_contents($lotFile), true);
+    }
 
     $fh = fopen($yearPath . '/data.csv', 'r');
 } else {
+    $lotFile = __DIR__ . '/data/lot2/' . $year . '.json';
+    if (file_exists($lotFile)) {
+        $lot = json_decode(file_get_contents($lotFile), true);
+    }
+
     $fh = fopen($data2File, 'r');
 }
 
@@ -85,15 +92,15 @@ $header = fgetcsv($fh, 2048);
 while ($line = fgetcsv($fh, 2048)) {
     $line[0] = str_replace(' ', '', $line[0]);
     $data = array_combine($header, $line);
-    if(isset($lot[$data['學校']])) {
-        if(!empty($lot[$data['學校']]['錄取'][3])) {
-            if(!empty($data['3-5歲'])) {
+    if (isset($lot[$data['學校']])) {
+        if (!empty($lot[$data['學校']]['錄取'][3])) {
+            if (!empty($data['3-5歲'])) {
                 $data['3-5歲'] = intval($data['3-5歲']) - $lot[$data['學校']]['錄取'][3];
             } else {
                 $data['3歲'] = intval($data['3歲']) - $lot[$data['學校']]['錄取'][3];
             }
         }
-        if(!empty($lot[$data['學校']]['錄取'][2])) {
+        if (!empty($lot[$data['學校']]['錄取'][2])) {
             $data['2歲'] = intval($data['2歲']) - $lot[$data['學校']]['錄取'][2];
         }
     }
@@ -286,7 +293,7 @@ EOD;
                 '___KEYWORD___' => urlencode(urlencode($cleanKeyword)),
             ]));
             $json = json_decode(json_encode(simplexml_load_string($nlscResult)), true);
-            if(isset($json['ITEM'][0])) {
+            if (isset($json['ITEM'][0])) {
                 $json['ITEM'] = $json['ITEM'][0];
             }
             if (!empty($json['ITEM']['LOCATION'])) {
