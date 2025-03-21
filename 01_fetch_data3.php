@@ -29,7 +29,7 @@ $areas = array(
     '歸仁區', '關廟區', '鹽水區'
 );
 $fh = fopen($yearPath . '/data3.csv', 'w');
-fputcsv($fh, array('行政區', '類型', '學校', '2歲', '3歲', '4歲', '5歲', '3-5歲', '簡章下載', '電話'));
+fputcsv($fh, array('行政區', '類型', '學校', '2歲', '3歲', '4歲', '5歲', '3-5歲', '電話'));
 foreach ($areas as $area) {
     $client->submit($form, array('ctl00$MainContent$rbArea' => $area));
     $y2 = getTableRows($client->getResponse()->getContent());

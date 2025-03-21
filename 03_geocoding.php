@@ -69,29 +69,42 @@ foreach ($pool as $k => $v) {
     $pool[$k]['幼兒園電話'] = $parts[2];
 }
 
-$data2File = $yearPath . '/data2.csv';
-$lot = [];
-if (!file_exists($data2File)) {
-    $lotFile = __DIR__ . '/data/lot/' . $year . '.json';
-    if (file_exists($lotFile)) {
-        $lot = json_decode(file_get_contents($lotFile), true);
-    }
-
+$data3File = $yearPath . '/data3.csv';
+$urlPool = [];
+if (file_exists($data3File)) {
     $fh = fopen($yearPath . '/data.csv', 'r');
-} else {
-    $lotFile = __DIR__ . '/data/lot2/' . $year . '.json';
-    if (file_exists($lotFile)) {
-        $lot = json_decode(file_get_contents($lotFile), true);
+    fgetcsv($fh, 2048);
+    while($line = fgetcsv($fh, 2048)) {
+        $urlPool[$line[0] . $line[2]] = $line[8];
     }
+    $fh = fopen($data3File, 'r');
+} else {
+    $data2File = $yearPath . '/data2.csv';
+    $lot = [];
+    if (!file_exists($data2File)) {
+        $lotFile = __DIR__ . '/data/lot/' . $year . '.json';
+        if (file_exists($lotFile)) {
+            $lot = json_decode(file_get_contents($lotFile), true);
+        }
 
-    $fh = fopen($data2File, 'r');
+        $fh = fopen($yearPath . '/data.csv', 'r');
+    } else {
+        $lotFile = __DIR__ . '/data/lot2/' . $year . '.json';
+        if (file_exists($lotFile)) {
+            $lot = json_decode(file_get_contents($lotFile), true);
+        }
+
+        $fh = fopen($data2File, 'r');
+    }
 }
-
 
 $header = fgetcsv($fh, 2048);
 while ($line = fgetcsv($fh, 2048)) {
     $line[0] = str_replace(' ', '', $line[0]);
     $data = array_combine($header, $line);
+    if(empty($data['學校'])) {
+        continue;
+    }
     if (isset($lot[$data['學校']])) {
         if (!empty($lot[$data['學校']]['錄取'][3])) {
             if (!empty($data['3-5歲'])) {
@@ -117,6 +130,9 @@ while ($line = fgetcsv($fh, 2048)) {
         }
         if (false === $infoFound) {
             switch ($data['學校']) {
+                case '三股國小附設幼兒園':
+                    $info = $pool['臺南市七股區三股國民小學附設幼兒園'];
+                    break;
                 case '七農非營利幼兒園':
                     $info = $pool['臺南市七農非營利幼兒園(臺南市七股區農會申請辦理)'];
                     break;
@@ -226,10 +242,26 @@ while ($line = fgetcsv($fh, 2048)) {
                     ];
                     break;
             }
+            if(!empty($info)) {
+                $infoFound = true;
+            }
         }
     }
+    if(false === $infoFound) {
+        print_r($pool);
+        print_r($data);
+        exit();
+    }
     $info['類型'] = $data['類型'];
-    $info['簡章下載'] = $data['簡章下載'];
+    if(isset($data['簡章下載'])) {
+        $info['簡章下載'] = $data['簡章下載'];
+    } else {
+        $key = $data['行政區'] . $data['學校'];
+        $info['簡章下載'] = '';
+        if(isset($urlPool[$key])) {
+            $info['簡章下載'] = $urlPool[$key];
+        }
+    }
     $info['招生'] = [
         '2歲' => $data['2歲'],
         '3歲' => $data['3歲'],
