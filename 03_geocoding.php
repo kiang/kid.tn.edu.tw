@@ -70,12 +70,12 @@ foreach ($pool as $k => $v) {
 }
 
 $data3File = $yearPath . '/data3.csv';
-$urlPool = [];
+$dataPool = [];
 if (file_exists($data3File)) {
     $fh = fopen($yearPath . '/data.csv', 'r');
-    fgetcsv($fh, 2048);
+    $header = fgetcsv($fh, 2048);
     while($line = fgetcsv($fh, 2048)) {
-        $urlPool[$line[0] . $line[2]] = $line[8];
+        $dataPool[$line[0] . $line[2]] = array_combine($header, $line);
     }
     $fh = fopen($data3File, 'r');
 } else {
@@ -117,6 +117,11 @@ while ($line = fgetcsv($fh, 2048)) {
             $data['2歲'] = intval($data['2歲']) - $lot[$data['學校']]['錄取'][2];
         }
     }
+    $key = $data['行政區'] . $data['學校'];
+    if(empty($data['電話'])) {
+        $data['電話'] = $dataPool[$key]['電話'];
+    }
+    $info = [];
     if (isset($pool[$data['學校']])) {
         $info = $pool[$data['學校']];
     } else {
@@ -130,9 +135,6 @@ while ($line = fgetcsv($fh, 2048)) {
         }
         if (false === $infoFound) {
             switch ($data['學校']) {
-                case '三股國小附設幼兒園':
-                    $info = $pool['臺南市七股區三股國民小學附設幼兒園'];
-                    break;
                 case '七農非營利幼兒園':
                     $info = $pool['臺南市七農非營利幼兒園(臺南市七股區農會申請辦理)'];
                     break;
@@ -256,10 +258,9 @@ while ($line = fgetcsv($fh, 2048)) {
     if(isset($data['簡章下載'])) {
         $info['簡章下載'] = $data['簡章下載'];
     } else {
-        $key = $data['行政區'] . $data['學校'];
         $info['簡章下載'] = '';
-        if(isset($urlPool[$key])) {
-            $info['簡章下載'] = $urlPool[$key];
+        if(isset($dataPool[$key])) {
+            $info['簡章下載'] = $dataPool[$key]['簡章下載'];
         }
     }
     $info['招生'] = [
